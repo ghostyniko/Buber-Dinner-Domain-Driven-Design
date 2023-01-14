@@ -7,7 +7,7 @@ public record MenuResponse(
     double? AverageRating,
     List<MenuSectionResponse> Sections,
     string HostId,
-    List<string> DinnersId,
+    List<string> DinnerIds,
     List<string> MenuReviewIds,
     DateTime CreatedDateTime,
     DateTime UpdatedDateTime);

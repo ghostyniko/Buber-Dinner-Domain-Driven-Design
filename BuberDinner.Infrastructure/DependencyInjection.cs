@@ -1,10 +1,11 @@
-
 using System.Text;
 using BuberDinner.Application.Common.Interfaces.Authentication;
 using BuberDinner.Application.Common.Interfaces.Persistance;
 using BuberDinner.Infrastructure.Authentication;
 using BuberDinner.Infrastructure.Persistence;
+using BuberDinner.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -17,24 +18,33 @@ public static class DependencyInjection
      ConfigurationManager configuration)
     {
         services.AddAuth(configuration);
-        services.AddSingleton<IJwtTokenGenerator,JwtTokenGenerator>();
+        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddPersistence();
         return services;
     }
 
+    public static IServiceCollection AddPersistence(this IServiceCollection services)
+    {
+        services.AddDbContext<BubberDinnerDbContext>(options=>
+            options.UseSqlServer());
+        
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IMenuRepository, MenuRepository>();
+        return services;
+    }
     public static IServiceCollection AddAuth(this IServiceCollection services,
      ConfigurationManager configuration)
-     {
+    {
         var JwtSettings = new JwtSettings();
-        configuration.Bind(JwtSettings.SectionName,JwtSettings);
+        configuration.Bind(JwtSettings.SectionName, JwtSettings);
 
-        services.AddSingleton<IJwtTokenGenerator,JwtTokenGenerator>();
-        
+        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+
         // services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.AddSingleton(Options.Create(JwtSettings));
 
-        services.AddAuthentication(defaultScheme:JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
@@ -50,5 +60,5 @@ public static class DependencyInjection
 
 
         return services;
-     }
+    }
 }

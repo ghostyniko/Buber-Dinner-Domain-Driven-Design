@@ -1,3 +1,4 @@
+using System.Reflection.PortableExecutable;
 using BuberDinner.Domain.Common.Models;
 using BuberDinner.Domain.Dinner.ValueObjects;
 using BuberDinner.Domain.Host.ValueObjects;
@@ -17,6 +18,7 @@ public sealed class Menu:AggregateRoot<MenuId>
         string name,
         string description, 
         HostId hostId, 
+        List<MenuSection> sections,
         DateTime createdDateTime,
         DateTime updatedDateTime)
         : base(menuId)
@@ -26,18 +28,21 @@ public sealed class Menu:AggregateRoot<MenuId>
         HostId = hostId;
         CreatedDateTime = createdDateTime;
         UpdatedDateTime = updatedDateTime;
+        _sections = sections;
     }
 
-    public static Menu Create(
+    public static Menu Create(HostId hostId,
         string name,
         string description,
-        HostId hostId)
+        List<MenuSection> sections
+        )
     {
         return new(
             MenuId.CreateUnique(),
             name,
             description,
             hostId,
+            sections,
             DateTime.UtcNow,
             DateTime.UtcNow);
     }
