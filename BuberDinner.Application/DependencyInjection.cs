@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ErrorOr;
 using FluentValidation;
+using BuberDinner.Application.Common.Mapping;
 
 namespace BuberDinner.Application;
 public static class DependencyInjection
@@ -17,7 +18,7 @@ public static class DependencyInjection
         services.AddScoped(
             typeof(IPipelineBehavior<,>),
             typeof(ValidationBehaviour<,>));
-
+        services.AddMappings();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         return services;
     }

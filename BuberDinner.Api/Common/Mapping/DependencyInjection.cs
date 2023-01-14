@@ -1,6 +1,7 @@
 using System.Reflection;
 using Mapster;
 using MapsterMapper;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BuberDinner.Api.Common.Mapping;
 
@@ -10,7 +11,7 @@ public static class DependencyInjection
     {
         var config = TypeAdapterConfig.GlobalSettings;
         config.Scan(Assembly.GetExecutingAssembly());
-        services.AddSingleton(config);
+        services.TryAddSingleton(config);
         services.AddScoped<IMapper,ServiceMapper>();
         return services;
     }

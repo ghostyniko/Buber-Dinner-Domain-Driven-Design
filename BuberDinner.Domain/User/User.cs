@@ -28,8 +28,9 @@ namespace BuberDinner.Domain.User
         string email,
         string password)
         {
+            var id = UserId.CreateUnique();
             return new(
-                UserId.CreateUnique(),
+                id,
                 firstName,
                 lastName,
                 email,

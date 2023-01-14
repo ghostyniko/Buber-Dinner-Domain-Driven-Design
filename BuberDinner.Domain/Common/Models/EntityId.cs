@@ -1,14 +1,21 @@
 namespace BuberDinner.Domain.Common.Models;
 
 public class EntityId<T> : ValueObject
-    where T: EntityId<T>
+    where T: EntityId<T>, new()
 {
     public Guid Value { get; }
-    protected EntityId(Guid value)
+    private EntityId(Guid value)
     {
         Value = value;
     }
-    public static T CreateUnique() =>(T)new EntityId<T>(Guid.NewGuid());
+    protected EntityId() : this(Guid.NewGuid())
+    { }
+
+    public static T CreateUnique()
+    {
+        T id = new T();
+        return id;
+    }
     public override IEnumerable<object> GetEqualityComponent()
     {
         yield return Value;

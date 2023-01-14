@@ -1,0 +1,47 @@
+@host=https://localhost:7195
+@hostId=host
+
+POST {{host}}/hosts/{{hostId}}/menus
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJCdWJlckRpbm5lci5Eb21haW4uVXNlci5WYWx1ZU9iamVjdHMuVXNlcklkIiwiZ2l2ZW5fbmFtZSI6Ik1hdGlqYSIsImZhbWlseV9uYW1lIjoixIxhdmxvdmnEhyIsImp0aSI6ImQ5OWIzNDIxLWM2NDItNDQ5Ny04N2U3LTA4ZDY4YzgyZjUzMSIsImV4cCI6MTY3Mzc5NzM3NCwiaXNzIjoiQnViZXJEaW5uZXIiLCJhdWQiOiJCdWJlckRpbm5lciJ9.tkEc44WJIz6abCLuDrn1cpgnbFX0MRlSoUJp7lLgxzM
+
+{
+    "name":"Good Menu",
+    "description":"Something good",
+    "sections":[
+        {
+            "name":"Fortisch",
+            "description":"Something before",
+            "items":[
+                {
+                    "name":"Brod",
+                    "description":"A brod"
+                }
+            ]
+        },
+        {
+            "name":"Haubttisch",
+            "description":"Main course",
+            "items":[
+                {
+                    "name":"Vegetable soup",
+                    "description":"Nice soup"
+                },
+                 {
+                    "name":"Seitan",
+                    "description":"Not satan"
+                }
+            ]
+        },
+        {
+            "name":"Nachtisch",
+            "description":"Desert",
+            "items":[
+                {
+                    "name":"Apple",
+                    "description":"An apple"
+                }
+            ]
+        }
+    ]
+}
